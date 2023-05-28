@@ -63,7 +63,7 @@ public class LoginTest {
         }
     }
     @Test
-    void failedAuthTest() {
+    void invalidPasswordAuthTest() {
         open("http://localhost:9999");
         $("[data-test-id=login] input").setValue("vasya");
         $("[data-test-id=password] input").setValue("123");
@@ -71,7 +71,15 @@ public class LoginTest {
         $("[data-test-id=error-notification]").text().contains("Неверно указан логин или пароль");
     }
     @Test
-    void invalidAuthCodeTest() {
+    void invalidLoginAuthTest() {
+        open("http://localhost:9999");
+        $("[data-test-id=login] input").setValue("petya");
+        $("[data-test-id=password] input").setValue("qwerty123");
+        $("[data-test-id=action-login]").click();
+        $("[data-test-id=error-notification]").text().contains("Неверно указан логин или пароль");
+    }
+    @Test
+    void invalidCodeTest() {
         open("http://localhost:9999");
         $("[data-test-id=login] input").setValue("vasya");
         $("[data-test-id=password] input").setValue("qwerty123");
@@ -86,6 +94,16 @@ public class LoginTest {
         $("[data-test-id=error-notification]").text().contains("Неверно указан код! Попробуйте ещё раз.");
 
     }
+@Test
+void emptyFieldCodeTest() {
+    open("http://localhost:9999");
+    $("[data-test-id=login] input").setValue("vasya");
+    $("[data-test-id=password] input").setValue("qwerty123");
+    $("[data-test-id=action-login]").click();
+    $("[data-test-id=code] input").setValue("");
+    $("[data-test-id=action-verify]").click();
+    $("[data-test-id=code]").text().contains("Поле обязательно для заполнения");
 
+}
 
 }
