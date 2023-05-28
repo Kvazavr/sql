@@ -12,8 +12,8 @@ import java.time.Instant;
 @AllArgsConstructor
 
 public class AuthCode {
-private String id;
-private String user_id;
-private String code;
-private Timestamp created;
+    private String id;
+    private String user_id;
+    private String code;
+    private Timestamp created;
 }

@@ -18,7 +18,7 @@ import static com.codeborne.selenide.Selenide.*;
 public class LoginTest {
     @SneakyThrows
     @BeforeEach
-    void init(){
+    void init() {
         var sql = "Delete FROM auth_codes;";
         var runner = new QueryRunner();
 
@@ -31,6 +31,7 @@ public class LoginTest {
         }
 
     }
+
     @Test
     void successAuthTest() {
         open("http://localhost:9999");
@@ -62,6 +63,7 @@ public class LoginTest {
             return code.getCode();
         }
     }
+
     @Test
     void invalidPasswordAuthTest() {
         open("http://localhost:9999");
@@ -70,6 +72,7 @@ public class LoginTest {
         $("[data-test-id=action-login]").click();
         $("[data-test-id=error-notification]").text().contains("Неверно указан логин или пароль");
     }
+
     @Test
     void invalidLoginAuthTest() {
         open("http://localhost:9999");
@@ -78,6 +81,7 @@ public class LoginTest {
         $("[data-test-id=action-login]").click();
         $("[data-test-id=error-notification]").text().contains("Неверно указан логин или пароль");
     }
+
     @Test
     void invalidCodeTest() {
         open("http://localhost:9999");
@@ -94,16 +98,17 @@ public class LoginTest {
         $("[data-test-id=error-notification]").text().contains("Неверно указан код! Попробуйте ещё раз.");
 
     }
-@Test
-void emptyFieldCodeTest() {
-    open("http://localhost:9999");
-    $("[data-test-id=login] input").setValue("vasya");
-    $("[data-test-id=password] input").setValue("qwerty123");
-    $("[data-test-id=action-login]").click();
-    $("[data-test-id=code] input").setValue("");
-    $("[data-test-id=action-verify]").click();
-    $("[data-test-id=code]").text().contains("Поле обязательно для заполнения");
 
-}
+    @Test
+    void emptyFieldCodeTest() {
+        open("http://localhost:9999");
+        $("[data-test-id=login] input").setValue("vasya");
+        $("[data-test-id=password] input").setValue("qwerty123");
+        $("[data-test-id=action-login]").click();
+        $("[data-test-id=code] input").setValue("");
+        $("[data-test-id=action-verify]").click();
+        $("[data-test-id=code]").text().contains("Поле обязательно для заполнения");
+
+    }
 
 }
