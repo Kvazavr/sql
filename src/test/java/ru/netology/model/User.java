@@ -1,4 +1,4 @@
-package ru.netology.mode;
+package ru.netology.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    private int id;
+    private String id;
     private String login;
     private String password;
+    private String status;
 }
