@@ -20,7 +20,10 @@ public class LoginPage {
         return new VerificationPage();
     }
 
-    public void checkErrorVisibleLogin() {
+    public void invalidLoginAndCheckErrorVisibleLogin(DataHelper.AuthInfo info) {
+        $("[data-test-id=login] input").setValue(info.getLogin());
+        $("[data-test-id=password] input").setValue(info.getPassword());
+        $("[data-test-id=action-login]").click();
         errorLoginMessage.shouldBe(visible);
         errorLoginMessage.text().contains("Неверно указан логин или пароль");
     }

@@ -30,15 +30,13 @@ public class LoginTest {
     }
 
     @Test
-    void invalidPasswordAuthTest() {
-        var Page = new LoginPage().validLogin(DataHelper.getInvalidPassword());
-        loginPage.checkErrorVisibleLogin();
+    void invalidLoginAuthTest() {
+        new LoginPage().invalidLoginAndCheckErrorVisibleLogin(DataHelper.getInvalidLogin());
     }
 
     @Test
-    void invalidLoginAuthTest() {
-        var Page = new LoginPage().validLogin(DataHelper.getInvalidLogin());
-        loginPage.checkErrorVisibleLogin();
+    void invalidPasswordAuthTest() {
+        new LoginPage().invalidLoginAndCheckErrorVisibleLogin(DataHelper.getInvalidPassword());
     }
 
     @Test
