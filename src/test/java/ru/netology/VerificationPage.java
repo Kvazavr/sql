@@ -22,20 +22,16 @@ public class VerificationPage {
         return new DashboardPage();
     }
 
-    public DashboardPage invalidVerify() {
+    public void invalidVerify() {
         codeField.setValue("1234");
         verifyButton.click();
         errorCodeMessage.shouldBe(visible).text().contains("Неверно указан код! Попробуйте ещё раз.");
-//        return checkErrorVisible();
-        return null;
+
     }
 
-    public DashboardPage emptyVerify() {
+    public void emptyVerify() {
         codeField.setValue("");
         verifyButton.click();
         errorEmptyCodeFieldMessage.shouldBe(visible).text().contains("Поле обязательно для заполнения");
-
-//        return checkErrorVisibleEmptyField();
-        return null;
     }
 }
