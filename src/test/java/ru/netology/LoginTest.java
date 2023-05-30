@@ -4,12 +4,9 @@ import com.codeborne.selenide.Condition;
 import lombok.SneakyThrows;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.model.AuthCode;
-import ru.netology.model.User;
 
 import java.sql.DriverManager;
 
@@ -108,7 +105,6 @@ public class LoginTest {
         $("[data-test-id=code] input").setValue("");
         $("[data-test-id=action-verify]").click();
         $("[data-test-id=code]").text().contains("Поле обязательно для заполнения");
-
     }
 
 }
