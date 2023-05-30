@@ -13,52 +13,19 @@ import java.sql.DriverManager;
 import static com.codeborne.selenide.Selenide.*;
 
 public class LoginTest {
-    @SneakyThrows
+
     @BeforeEach
     void init() {
-        var sql = "Delete FROM auth_codes;";
-        var runner = new QueryRunner();
-
-        try (
-                var conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
-                );
-        ) {
-            runner.execute(conn, sql);
-        }
+        DBUtils.preperedDB();
+        open("http://localhost:9999");
 
     }
 
     @Test
     void successAuthTest() {
-        open("http://localhost:9999");
-        $("[data-test-id=login] input").setValue("vasya");
-        $("[data-test-id=password] input").setValue("qwerty123");
-        $("[data-test-id=action-login]").click();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        $("[data-test-id=code] input").setValue(codeAuth());
-        $("[data-test-id=action-verify]").click();
-        $x("//*[contains(text(), 'Личный кабинет')]").shouldBe(Condition.visible);
-    }
-
-    @SneakyThrows
-    private String codeAuth() {
-        var sql = "SELECT * FROM auth_codes order by created desc limit 1;";
-        var runner = new QueryRunner();
-
-        try (
-                var conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
-                );
-        ) {
-            var code = runner.query(conn, sql, new BeanHandler<>(AuthCode.class));
-            System.out.println(code);
-            return code.getCode();
-        }
+        var verificationPage = new LoginPage().validLogin(DataHelper.getValidAuthInfo());
+        String code = DBUtils.codeAuth();
+        verificationPage.validVerify(code);
     }
 
     @Test
