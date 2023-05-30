@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import static com.codeborne.selenide.Selenide.*;
 
 public class LoginTest {
+    LoginPage loginPage;
 
     @BeforeEach
     void init() {
@@ -30,48 +31,26 @@ public class LoginTest {
 
     @Test
     void invalidPasswordAuthTest() {
-        open("http://localhost:9999");
-        $("[data-test-id=login] input").setValue("vasya");
-        $("[data-test-id=password] input").setValue("123");
-        $("[data-test-id=action-login]").click();
-        $("[data-test-id=error-notification]").text().contains("Неверно указан логин или пароль");
+        var Page = new LoginPage().validLogin(DataHelper.getInvalidPassword());
+        loginPage.checkErrorVisibleLogin();
     }
 
     @Test
     void invalidLoginAuthTest() {
-        open("http://localhost:9999");
-        $("[data-test-id=login] input").setValue("petya");
-        $("[data-test-id=password] input").setValue("qwerty123");
-        $("[data-test-id=action-login]").click();
-        $("[data-test-id=error-notification]").text().contains("Неверно указан логин или пароль");
+        var Page = new LoginPage().validLogin(DataHelper.getInvalidLogin());
+        loginPage.checkErrorVisibleLogin();
     }
 
     @Test
     void invalidCodeTest() {
-        open("http://localhost:9999");
-        $("[data-test-id=login] input").setValue("vasya");
-        $("[data-test-id=password] input").setValue("qwerty123");
-        $("[data-test-id=action-login]").click();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        $("[data-test-id=code] input").setValue("123456");
-        $("[data-test-id=action-verify]").click();
-        $("[data-test-id=error-notification]").text().contains("Неверно указан код! Попробуйте ещё раз.");
-
+        var verificationPage = new LoginPage().validLogin(DataHelper.getValidAuthInfo());
+        verificationPage.invalidVerify();
     }
 
     @Test
     void emptyFieldCodeTest() {
-        open("http://localhost:9999");
-        $("[data-test-id=login] input").setValue("vasya");
-        $("[data-test-id=password] input").setValue("qwerty123");
-        $("[data-test-id=action-login]").click();
-        $("[data-test-id=code] input").setValue("");
-        $("[data-test-id=action-verify]").click();
-        $("[data-test-id=code]").text().contains("Поле обязательно для заполнения");
+        var verificationPage = new LoginPage().validLogin(DataHelper.getValidAuthInfo());
+        verificationPage.emptyVerify();
     }
 
 }
