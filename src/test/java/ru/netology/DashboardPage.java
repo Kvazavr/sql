@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.$x;
 public class DashboardPage {
     private SelenideElement codeField = $x("//*[contains(text(), 'Личный кабинет')]");
 
-    public DashboardPage(){
+    public DashboardPage() {
         codeField.shouldBe(Condition.visible);
     }
 

@@ -23,6 +23,7 @@ public class DBUtils {
             return code.getCode();
         }
     }
+
     @SneakyThrows
     public static void preperedDB() {
         var sql = "Delete from card_transactions;";
